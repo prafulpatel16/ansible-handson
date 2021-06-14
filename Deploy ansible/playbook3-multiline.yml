@@ -1,0 +1,32 @@
+---
+# multi line yaml format
+- hosts: all
+  tasks:
+   - copy: src=/etc/shadow
+           dest=/tmp/ 
+           owner=ansible
+           group=ansible 
+           mode=777
+
+   - file: path=/tmp/azure
+           state=directory
+
+   - yum:  name=nfs-utils 
+           state=latest
+
+   - service: name=nfs-server
+              state=started
+
+
+
+
+
+
+
+
+
+
+
+
+
+

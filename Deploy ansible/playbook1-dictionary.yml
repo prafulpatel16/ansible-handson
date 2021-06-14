@@ -1,0 +1,36 @@
+---
+# Dictionary format
+- hosts: all
+  tasks:
+   - copy:
+      src: /etc/passwd
+      dest: /tmp/
+      owner: ansible
+      group: ansible
+      mode: 777
+
+   - file:
+      path: /tmp/ansible
+      state: directory
+
+   - yum:
+      name: httpd
+      state: latest
+
+   - service:
+      name: httpd
+      state: started
+
+
+
+
+
+
+
+
+
+
+
+
+
+
