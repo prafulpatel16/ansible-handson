@@ -1,0 +1,54 @@
+lab1: Write a playbook create_user.yml to create a user named admin with group: admin and uid: 2048
+      
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+  - name: add the user admin with group admin and uid 2048
+    - group:
+        name: 'admin'
+        state: present
+    - user:
+        name: 'admin'
+        uid: 2048
+        group: 'admin'
+
+
+
+Lab2: Suppose Sabin Nepal joined your team on the first day of 2020 as special contractor to work for a span of 3 years, ie, till the end of the year 2023. He needs his accounts on remote hosts till his work span.
+
+Write a playbook add_user.yml to create his user account with username neymarsabin that would be expiring after 3 years. The expires option on the users module is in the epoch. So Sunday, December 31, 2023 11:59:59 PM GMT== 1704067199 as epoch time
+
+
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+    - user:
+        name: 'neymarsabin'
+        expires: 1704067199
+                             
+
+
+
+
+Lab3:
+
+he admin user you created earlier got compromised for some reason, and you need to remove it asap from the system.
+
+Write a playbook remove_user.yml to remove the admin account created earlier in the earlier step.
+
+---
+- hosts: all
+  tasks:
+  - user:
+     name: 'admin'
+     state: absent
+     remove: yes
+
+
+
+link: 
+https://docs.ansible.com/ansible/latest/collections/ansible/builtin/user_module.html
+
+
