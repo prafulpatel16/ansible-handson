@@ -1,0 +1,60 @@
+
+#Lab: 1
+Let us explore the environment for our KodeKloud e-commerce LAMP stack application. There are 2 servers - lamp-web and lamp-db. Let us setup the inventory files for that. Create an inventory file at /home/thor/playbooks/lamp-stack-playbooks/inventory to include the following data:
+
+
+Hosts: lamp-web, lamp-db
+Groups: db_servers contains lamp-db; web_servers contains lamp-web
+IP Addresses: lamp-web: 172.20.1.100; lamp-db: 172.20.1.101
+Credentials for lamp-web: Username=john Password=john
+Credentials for lamp-db Username=maria Password=maria
+
+Inventory must contain hosts
+Inventory must contain groups
+lamp-web server: Host, User and Password
+lamp-db server: Host, User & Password
+
+
+#Create Invenotry file
+
+vi Inventory File
+ # Inventory File
+[web_servers]
+lamp-web ansible_host=172.201.100 ansible_user=john ansible_ssh_pass=john
+[db_servers]
+lamp-db ansible_host=172.20.1.101 ansible_user=maria ansible_ssh_pass=maria
+
+[db_servers]
+lamp-db ansible_host=172.20.1.101 ansible_ssh_pass=maria ansible_user=maria
+
+[web_servers]
+lamp-web ansible_host=172.20.1.100 ansible_ssh_pass=john ansible_user=john
+
+
+
+#Lab: 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[db_servers]
+lamp-db ansible_host=172.20.1.101 ansible_ssh_private_key_file=/home/thor/.ssh/maria ansible_user=maria mysqlservice=mysqld mysql_port=3306 dbname=ecomdb dbuser=ecomuser dbpassword=ecompassword
+
+[web_servers]
+lamp-web ansible_host=172.20.1.100 ansible_ssh_private_key_file=/home/thor/.ssh/john ansible_user=john httpd_port=80 repository=https://github.com/kodekloudhub/learning-app-ecommerce.git
+
+
+
