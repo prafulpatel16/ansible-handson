@@ -34,19 +34,39 @@ lamp-web ansible_host=172.20.1.100 ansible_ssh_pass=john ansible_user=john
 
 #Lab: 2
 
+Let us setup password less authentication between Ansible Controller and the web and db servers. Create a pair of keys for each user at /home/thor/.ssh/maria and /home/thor/.ssh/john
+
+And distribute the public keys to the web and database servers - lamp-db and lamp-web.
+
+
+Password for user maria is maria and john is john
 
 
 
 
+#Lab 3
+
+Let us setup password less authentication between Ansible Controller and the web and db servers. Create a pair of keys for each user at /home/thor/.ssh/maria and /home/thor/.ssh/john
+
+And distribute the public keys to the web and database servers - lamp-db and lamp-web.
+
+
+Password for user maria is maria and john is john
 
 
 
+ssh-keygen -f /home/thor/.ssh/maria and ssh-keygen -f /home/thor/.ssh/john and ssh-copy-id -i /home/thor/.ssh/maria maria@lamp-db and ssh-copy-id -i /home/thor/.ssh/john john@lamp-web
 
 
 
+#Lab 4
 
 
+Update the inventory file to use the newly created private keys for the respective hosts
 
+
+ansible_ssh_private_key_file=/home/thor/.ssh/maria
+ansible_ssh_private_key_file=/home/thor/.ssh/john
 
 
 
@@ -57,4 +77,62 @@ lamp-db ansible_host=172.20.1.101 ansible_ssh_private_key_file=/home/thor/.ssh/m
 lamp-web ansible_host=172.20.1.100 ansible_ssh_private_key_file=/home/thor/.ssh/john ansible_user=john httpd_port=80 repository=https://github.com/kodekloudhub/learning-app-ecommerce.git
 
 
+
+#Lab 5
+
+
+A playbook deploy-lamp-stack.yml is given with a basic tasks to install basic libraries. Execute the playbook and fix any issues.
+
+
+You are not required to add any tasks or plays. Only fix the issue with execution.
+
+
+- name: Deploy lamp stack application
+  hosts: all
+  tasks:
+    - name: Install common dependencies
+      yum:
+        name:
+          - libselinux-python
+          - libsemanage-python
+          - firewalld
+        state: installed
+        
+        
+Error:
+
+  PLAY [Deploy lamp stack application] *******************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [lamp-db]
+ok: [lamp-web]
+
+TASK [Install common dependencies] *********************************************
+fatal: [lamp-web]: FAILED! => {"changed": false, "msg": "ovl: Error while doing RPMdb copy-up:\n[Errno 13] Permission denied: '/var/lib/rpm/Obsoletename'\nYou need to be root to perform this command.\n", "rc": 1, "results": ["Loaded plugins: fastestmirror, ovl\n"]}
+fatal: [lamp-db]: FAILED! => {"changed": false, "msg": "ovl: Error while doing RPMdb copy-up:\n[Errno 13] Permission denied: '/var/lib/rpm/Obsoletename'\nYou need to be root to perform this command.\n", "rc": 1, "results": ["Loaded plugins: fastestmirror, ovl\n"]}
+	to retry, use: --limit @/home/thor/playbooks/lamp-stack-playbooks/deploy-lamp-stack.retry
+
+PLAY RECAP *********************************************************************
+lamp-db                    : ok=1    changed=0    unreachable=0    failed=1   
+lamp-web                   : ok=1    changed=0    unreachable=0    failed=1  
+        
+        
+      
+ In order to solve the above error, need to be able to become a root user.
+ become: yes
+   
+
+
+---
+- name: Deploy lamp stack application
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install common dependencies
+      yum:
+        name:
+          - libselinux-python
+          - libsemanage-python
+          - firewalld
+        state: installed
 
