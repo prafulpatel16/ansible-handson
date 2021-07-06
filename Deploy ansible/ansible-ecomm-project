@@ -1,4 +1,4 @@
-
+Environemnt setup
 #Lab: 1
 Let us explore the environment for our KodeKloud e-commerce LAMP stack application. There are 2 servers - lamp-web and lamp-db. Let us setup the inventory files for that. Create an inventory file at /home/thor/playbooks/lamp-stack-playbooks/inventory to include the following data:
 
@@ -135,4 +135,79 @@ lamp-web                   : ok=1    changed=0    unreachable=0    failed=1
           - libsemanage-python
           - firewalld
         state: installed
+
+
+--------------------------------------------------------------------------------------------------------
+
+Improve LAMP Stack E-commerce
+
+Lab: 1
+
+Let us continue to improve our LAMP stack E-Commerce application. Now that we have learned to develop playbooks and various modules, let's further develop our playbooks to install packages and configure applications.
+
+
+Let us start with the first step of installing common dependencies on both the servers. We need the following packages installed on both web and db servers.
+
+libselinux-python
+libsemanage-python
+firewalld.
+
+Playbook: ~/playbooks/lamp-stack-playbooks/deploy-lamp-stack.yml
+
+---
+
+- name: Deploy lamp stack application
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install common dependencies
+      yum:
+        name:
+          - libselinux-python
+          - libsemanage-python
+          - firewalld
+        state: installed
+
+
+Lab: 2
+
+Let us now configure MariaDB Service on the lamp-db server. Update the playbook to add a play to perform the following tasks on lamp-db
+
+
+1. Install the following packages:
+mariadb-server
+MySQL-python
+
+2. Copy the MySQL Configuration file
+located at files/my.cnf to /etc/my.cnf
+
+3. Start mariadb Service
+4. Start firewalld Service
+5. Insert firewalld rule
+Allow mysql_port - 3306/tcp zone - public
+
+Playbook: ~/playbooks/lamp-stack-playbooks/deploy-lamp-stack.yml
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
